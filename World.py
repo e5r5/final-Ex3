@@ -27,6 +27,33 @@ button1_window = canvas.create_window(10, 10, window=button1)
 #button2.configure(width = 10)
 #button2_window = canvas.create_window(10, 10, window=button2)
 
+
+class Robot:
+    def __init__(self,id,x,y):
+        self.id=id
+        self.x=x
+        self.y=y
+        self.history_path=[]
+        self.env=[]
+
+        canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1, fill='red')
+
+
+
+    def WriteMSGtoFile(s):
+        with open('MSG_history'+id+'.txt','a') as file:
+            file.write(s+'\n')
+    def addPath(self,s):
+        self.history_path[self.history_path.size]=s
+
+
+
+class Message:
+    def __init__(self,s):
+        self.stam=s
+
+
+
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
 
