@@ -1,5 +1,4 @@
 from Tkinter import *
-
 import random
 def showPosEvent(event):
     print ' X=%s Y=%s' % ( event.x, event.y)
@@ -62,6 +61,18 @@ class Simulator:
                 x = random.random() * 1000
                 y = random.random() * 750
             self.robots.insert(i,Robot(i,x,y))
+
+
+def swap(a, b, arr):
+         t = arr[a]
+         arr[a] = arr[b]
+         arr[b] = t
+
+def RandomArr(arr):
+         for i in range(0, 100):
+             swap(i, random.randint(0, 100), arr)
+
+
 
 Simulator()
 
