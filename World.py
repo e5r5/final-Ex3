@@ -1,6 +1,6 @@
 from Tkinter import *
 
-
+import random
 def showPosEvent(event):
     print ' X=%s Y=%s' % ( event.x, event.y)
 
@@ -52,7 +52,18 @@ class Message:
     def __init__(self,s):
         self.stam=s
 
+class Simulator:
+    def __init__(self):
+        self.robots=[]
+        for i in range(0,100):
+            x=random.random()*1000
+            y=random.random()*750
+            while ((x>=100 and x<=200 and y>=100 and y<=200)or (x>=300 and x<=700 and y>=600 and y<=700)):
+                x = random.random() * 1000
+                y = random.random() * 750
+            self.robots.insert(i,Robot(i,x,y))
 
+Simulator()
 
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
