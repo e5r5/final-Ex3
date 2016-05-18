@@ -1,3 +1,3 @@
-# final-Ex3
+# final-Ex3 - Robots communication simulation
 
-goodluck!!!
+
