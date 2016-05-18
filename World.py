@@ -46,10 +46,23 @@ class Robot:
         self.history_path[self.history_path.size]=s
 
 
+class MSG:
+    def __init__(self, IDmsg, timeMsg, senderID, dataMSG, power, sourceMsg):
+        self.IDmsg=IDmsg
+        self.timeMSG=timeMsg
+        self.senderID=senderID
+        self.dataMSG=dataMSG
+        self.power=power
+        self.sourceMSG=sourceMsg
+        self.counterMSG=1
 
-class Message:
-    def __init__(self,s):
-        self.stam=s
+    def updateMSG(self, timeMSG1, senderID1, dataMSG1, power1):
+        self.timeMSG=timeMSG1
+        self.senderID=senderID1
+        self.dataMSG=dataMSG1
+        self.power=power1
+        self.counterMSG=self.counterMSG+1
+
 
 class Simulator:
     def __init__(self):
