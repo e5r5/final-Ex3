@@ -1,5 +1,6 @@
 from Tkinter import *
 import random
+import time
 def showPosEvent(event):
     print ' X=%s Y=%s' % ( event.x, event.y)
 
@@ -28,6 +29,7 @@ button1_window = canvas.create_window(10, 10, window=button1)
 
 
 class Robot:
+start_time=time.time();
     def __init__(self,id,x,y):
         self.id=id
         self.x=x
@@ -44,9 +46,10 @@ class Robot:
             file.write(s+'\n')
     def addPath(self,s):
         self.history_path[self.history_path.size]=s
-
+print("---% seconds ---" % (time.time()-srart_time))
 
 class MSG:
+start_time=time.time();
     def __init__(self, IDmsg, timeMsg, senderID, dataMSG, power, sourceMsg):
         self.IDmsg=IDmsg
         self.timeMSG=timeMsg
@@ -63,8 +66,9 @@ class MSG:
         self.power=power1
         self.counterMSG=self.counterMSG+1
 
-
+print("---% seconds ---" % (time.time()-srart_time))
 class Simulator:
+start_time=time.time();
     def __init__(self):
         self.robots=[]
         for i in range(0,100):
@@ -84,7 +88,7 @@ def swap(a, b, arr):
 def RandomArr(arr):
          for i in range(0, 100):
              swap(i, random.randint(0, 100), arr)
-
+print("---% seconds ---" % (time.time()-srart_time))
 
 
 Simulator()
