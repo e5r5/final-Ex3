@@ -95,7 +95,7 @@ class Robot:
     def control_battery(self):
         if (self.IsWhite and self.battery < 100):
             self.battery + 1
-        elif (not (self.IsWhite and self.battery > 0)):
+        elif ((not self.IsWhite) and self.battery > 0):
             self.battery - 1
 
     def WriteMSGtoFile(s):
