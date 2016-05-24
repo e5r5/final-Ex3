@@ -162,6 +162,16 @@ def RMS(xtemp,ytemp):
     return math.sqrt(av)
 
 
+def OutFromGray():  #get out from the gray area
+    for i in robots:
+        if ((i.x >= 330 and i.x <= 600 and i.y >= 330 and i.y <= 500) and i.isTree==False):
+            canvas.create_oval(i.x - 7, i.y - 7, i.x + 7, i.y + 7, width=0, fill='gray') #delete robot
+            i.y=i.y-20 #go up
+            canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
+            canvas.create_text(i.x,i.y,text=i.id)
+
+
+
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
 
