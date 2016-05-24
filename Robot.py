@@ -23,10 +23,10 @@ class Robot:
         self.env = []
         self.canvas=canvas
         if(isTree==True):
-             canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='green')
+             canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
         else:
-             canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='red')
+             canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='red')
              canvas.create_text(x, y, text=id)
         
 
@@ -35,7 +35,7 @@ class Robot:
         else:
             self.IsWhite = True
 
-    def isOKtoMOVE(self, tempX, tempY):
+    def isOKtoMOVE(self,tempX, tempY):
 
         if ((tempX > 1000 or tempX < 0) and (tempY > 700 or tempY < 0)):  # if its not in the limit of the canvas
             return False
@@ -45,14 +45,20 @@ class Robot:
         else:
             return True
 
+    def control_battery(self):
+        if (self.IsWhite and self.battery < 100):
+            self.battery = self.battery + 1
+        elif ((not self.IsWhite) and self.battery > 0):
+            self.battery = self.battery - 1
+
     def MoveRobot(self):
         if (self.isTree == True):
             return
 
         if (self.x >= 330 and self.x <= 600 and self.y >= 330 and self.y <= 500):  # delete the old robot
-            self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='gray')
+            self.canvas.create_oval(self.x - 7, self.y - 7, self.x + 7, self.y + 7, width=0, fill='gray')
         else:
-            self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='white')
+            self.canvas.create_oval(self.x - 7, self.y - 7, self.x + 7, self.y + 7, width=0, fill='white')
 
         # find a new x, y for the robot
         while (True):
@@ -71,20 +77,16 @@ class Robot:
                 tempY = self.y - 10
                 tempX = self.x
 
-            if (self.isOKtoMOVE(self,tempX,tempY)==True):  # if the point is in good area- break while
+            if (self.isOKtoMOVE(tempX,tempY)==True):  # if the point is in good area- break while
                 self.x = tempX
                 self.y = tempY
                 break
 
-        self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=1,fill='red')  # create a robot in the new x,y
+        self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0,fill='red')  # create a robot in the new x,y
+        self.canvas.create_text(self.x,self.y,text=self.id)
 
-        self.control_battary()
+        self.control_battery
 
-    def control_battery(self):
-        if (self.IsWhite and self.battery < 100):
-            self.battery= self.battery + 1
-        elif ((not self.IsWhite) and self.battery > 0):
-            self.battery=self.battery - 1
 
     def WriteMSGtoFile(s):
         with open('MSG_history'+id+'.txt','a') as file:
