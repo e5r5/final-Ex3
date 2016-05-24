@@ -12,7 +12,8 @@ class Robot:
     tempX=0
     tempY=0
     canvas = None
-    def __init__(self, id, x, y,canvas,isTree):
+    robot=[]
+    def __init__(self, id, x, y,canvas,isTree,robots):
         start_time = time.time()
         self.id = id
         self.x = x
@@ -22,6 +23,7 @@ class Robot:
         self.history_path = []
         self.env = []
         self.canvas=canvas
+        self.robots=robots
         if(isTree==True):
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
@@ -42,6 +44,9 @@ class Robot:
         elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
                                 tempX >= 295 and tempX <= 705 and tempY >= 595 and tempY <= 705)):  # if its in a black area
             return False
+        for i in self.robots:
+            if (i.x-5<tempX and i.x+5>tempX and i.y-5<tempY and i.y+5>tempY):
+                return False
         else:
             return True
 
@@ -52,7 +57,7 @@ class Robot:
             self.battery = self.battery - 1
 
     def MoveRobot(self):
-        if (self.isTree == True):
+        if (self.isTree):
             return
 
         if (self.x >= 330 and self.x <= 600 and self.y >= 330 and self.y <= 500):  # delete the old robot
