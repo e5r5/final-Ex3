@@ -44,8 +44,12 @@ def IsSimulationFinish(robots,epsilon):
     return True
 
 ##one run on robots, if step() work like 20,000 time= we finsh the Simulation
-def step(robots):
-         print "hi"
+def step():
+    for i in robots:
+       # print 'hi'
+        i.MoveRobot()
+
+
 
 ##@@@@@@@like this the progrms look like
  #   while(not IsSimulationFinish(robots,50)):
@@ -65,12 +69,6 @@ def step(robots):
 # button2_window = canvas.create_window(10, 10, window=button2 )
 
 
-button1 = Button(Frame, text = "Quit", command = canvas.quit)
-button2 = Button(Frame, text = "step 1 time" )#command = step(robots,firstTimeStep))
-button3 = Button(Frame, text = "step 5000 times")
-button1.pack(side=TOP)
-button2.pack(side=TOP)
-button3.pack(side=TOP)
 
 firstTimeStep=True
 ########################################GUI######################################
@@ -172,9 +170,17 @@ def OutFromGray():  #get out from the gray area
 
 
 
+
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
 
+
+button1 = Button(Frame, text = "Quit", command = canvas.quit)
+button2 = Button(Frame, text = "step 1 time", command = step)
+button3 = Button(Frame, text = "step 5000 times")
+button1.pack(side=TOP)
+button2.pack(side=TOP)
+button3.pack(side=TOP)
 
 tkroot.title('Ex3')
 tkroot.mainloop()
