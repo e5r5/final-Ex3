@@ -12,16 +12,17 @@ class Robot:
     tempX=0
     tempY=0
     canvas = None
-    def __init__(self, id, x, y,canvas):
+    def __init__(self, id, x, y,canvas,isTree):
         start_time = time.time()
         self.id = id
         self.x = x
         self.y = y
+        self.isTree=isTree
         start_time = time.time()
         self.history_path = []
         self.env = []
         self.canvas=canvas
-        canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1, fill='red')
+        canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='green')
 
         if ((x >= 330 and x <= 600 and y >= 330 and y <= 500)):
             self.IsWhite = False
