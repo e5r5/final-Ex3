@@ -10,14 +10,29 @@ import Robot
 
 robots = []
 tkroot = Tk()
-canvas = Canvas(width=1000, height=750, bg='white')
 root = Tk()
-Frame = Frame(root, width=70, height=70)
+Frame = Frame(root, width=100, height=100)
+Frame.pack(expand=YES, fill=BOTH)
 Frame.pack(side=TOP)
+canvas = Canvas(width=1000, height=750, bg='white')
 ##
 
+##one run on robots, if step() work like 20,000 time= we finsh the Simulation
+def step():
+    for i in robots:
+       # print 'hi'
+        i.MoveRobot()
+
+button1 = Button(Frame, text = "Quit", command = canvas.quit)
+button2 = Button(Frame, text = "step 1 time", command = step)
+button3 = Button(Frame, text = "step 5000 times")
+button1.pack(side=TOP)
+button2.pack(side=TOP)
+button3.pack(side=TOP)
+
+
+root.title("control Ex3")
 canvas.create_rectangle(100, 100, 200, 200, width=1, fill='black')
-#canvas.create_rectangle(100, 400,550 , 500, width=5, fill='gray')
 canvas.create_rectangle(300, 600,700 , 700, width=3, fill='black')
 canvas.create_rectangle(330, 330,600 , 500, width=2, fill='gray')
 
@@ -45,34 +60,7 @@ def IsSimulationFinish(robots,epsilon):
             return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
     return True
 
-##one run on robots, if step() work like 20,000 time= we finsh the Simulation
-def step():
-    for i in robots:
-       # print 'hi'
-        i.MoveRobot()
 
-
-
-##@@@@@@@like this the progrms look like
- #   while(not IsSimulationFinish(robots,50)):
- #       print "hi"
-#        canvas.pack(expand=YES, fill=BOTH)
- ##
- #progeme run here!!!!!!!
- ##
-# if we here we Finish!! = print cunt and bay bay to ex3
-
-##two buttons in the Simulation
-# button1 = Button(canvas, text = "Quit", command = canvas.quit)
-# button1.configure(width = 10)
-# button1_window = canvas.create_window(10, 10, window=button1)
-# button2 = Button(canvas, text = "next",command = step(robots))
-# button2.configure(width = 10)
-# button2_window = canvas.create_window(10, 10, window=button2 )
-
-
-
-firstTimeStep=True
 ########################################GUI######################################
 def showPosEvent(event):
     print ' X=%s Y=%s' % ( event.x, event.y)
@@ -80,8 +68,6 @@ def showPosEvent(event):
 
 def onMiddleClick(event):
     showPosEvent(event)
-
-
 
 ############################################################################################
 class MSG:
@@ -102,9 +88,7 @@ class MSG:
         self.power=power1
         self.counterMSG=self.counterMSG+1
 
-
 ############################## class Simulator:################################################
-
 
 def swap(a, b, arr):
          t = arr[a]
@@ -161,7 +145,6 @@ def RMS(xtemp,ytemp):
     av = sum/nemberOfTree
     return math.sqrt(av)
 
-
 def OutFromGray():  #get out from the gray area
     for i in robots:
         if ((i.x >= 330 and i.x <= 600 and i.y >= 330 and i.y <= 500) and i.isTree==False):
@@ -170,19 +153,8 @@ def OutFromGray():  #get out from the gray area
             canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
             canvas.create_text(i.x,i.y,text=i.id)
 
-
-
-
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
-
-
-button1 = Button(Frame, text = "Quit", command = canvas.quit)
-button2 = Button(Frame, text = "step 1 time", command = step)
-button3 = Button(Frame, text = "step 5000 times")
-button1.pack(side=TOP)
-button2.pack(side=TOP)
-button3.pack(side=TOP)
-
+Frame.pack(expand=YES, fill=BOTH)
 tkroot.title('Ex3')
 tkroot.mainloop()
