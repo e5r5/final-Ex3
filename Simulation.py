@@ -30,9 +30,11 @@ for i in range(0,100):
             x = random.random() * 1000
             y = random.random() * 750
     if(i<30):
-          robots.insert(i,Robot.Robot(i,x,y,canvas,True))##add to array
+          robots.insert(i,Robot.Robot(i,x,y,canvas,True,robots))##add to array
     else:
-          robots.insert(i,Robot.Robot(i,x,y,canvas,False))##add to array
+          robots.insert(i,Robot.Robot(i,x,y,canvas,False,robots))##add to array
+
+
 
 canvas.pack(expand=YES, fill=BOTH)#Show canvas
 
