@@ -24,7 +24,7 @@ class Robot:
         self.env = []
         self.canvas=canvas
         self.robots=robots
-        if(isTree==True):
+        if(isTree):
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
         else:
@@ -58,6 +58,8 @@ class Robot:
 
     def MoveRobot(self):
         if (self.isTree):
+            self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='green')
+            self.canvas.create_text(self.x, self.y, text=self.id)
             return
 
         if (self.x >= 330 and self.x <= 600 and self.y >= 330 and self.y <= 500):  # delete the old robot
