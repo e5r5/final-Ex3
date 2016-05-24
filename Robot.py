@@ -54,7 +54,7 @@ class Robot:
         else:
             self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='white')
 
-        count = 0  # fint a new x, y for the robot
+        # find a new x, y for the robot
         while (True):
             #print 'hi'
             MoveTo = random.random()
