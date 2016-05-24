@@ -115,6 +115,51 @@ def RandomArr(arr):
          for i in range(0, 100):
              swap(i, random.randint(0, 100), arr)
 
+#return the oklidi dist from to point
+def Get_Oklidi_Dist(x1,y1,x2,y2):
+    return math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
+
+def TreeToGuess_RealDist(xTree,yTree,Xguess,Yguess): #must to be O(1)! return dist!
+    return 555;
+
+#impot: robot, Epsilon stopped the simulation, RMS Epsilon, a few pixels to move each step
+# void function that upDate the guess X Y and at the end make the robot to Tree!
+def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
+    Tempx=robot.tempX
+    Tempy=robot.tempY
+    #while we dont close to epsilon
+    while(RMS(Tempx,Tempy)>epsilonRMS):
+        TempRms=RMS(Tempx,Tempy)
+        if(TempRms>RMS(Tempx,Tempy+Onestep) and Robot.isOKtoMOVE(Tempx,Tempy)):# move up
+            Tempy= Tempy + Onestep
+        elif(TempRms>RMS(Tempx,Tempy-Onestep)and Robot.isOKtoMOVE(Tempx,Tempy)):#move Down
+            Tempy = Tempy - Onestep
+        elif(TempRms>RMS(Tempx+Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy)):   #move R
+            Tempx = Tempx + Onestep
+        elif(TempRms>RMS(Tempx-Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy)):#movw L
+            Tempx = Tempx - Onestep
+        else:#all is not ok! go with anathr step
+            Onestep = Onestep*2
+    #if is colse enough updata robot = make tree and tempX tempY
+    if(((math.fabs(Tempx-robots[robot.id].tempX)<=epsilon_Stop_Simlashian) and (math.fabs(Tempy-robots[robot.id].tempY)<=epsilon_Stop_Simlashian))):
+        robot.isTree=True
+        robot.tempY=Tempy
+        robot.tempX=Tempx
+    else:
+        print "Error in function (close_to_the_real_dist) ,the main function, need to fix!   "
+
+# the STIA = if is close to zero, the geass close to the real dist
+def RMS(xtemp,ytemp):
+    sum=0
+    nemberOfTree = 30
+    for r in robots:
+        if(r.isTree):
+            geassToTree =Get_Oklidi_Dist(r.tempY,r.tempY,xtemp,ytemp)
+            realDist = TreeToGuess_RealDist(r.tempX,r.tempY,xtemp,ytemp)
+            newDist= (geassToTree - realDist) * (geassToTree - realDist)
+            sum = sum + newDist
+    av = sum/nemberOfTree
+    return math.sqrt(av)
 
 
 canvas.bind('<Button-1>',  onMiddleClick)
