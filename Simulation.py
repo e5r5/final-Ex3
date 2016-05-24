@@ -23,6 +23,7 @@ canvas.create_rectangle(330, 330,600 , 500, width=2, fill='gray')
 
 ##make random robots:
 for i in range(0,100):
+    random.seed(100-i)
     x=random.random()*1000
     y=random.random()*750
     while ((x>=95 and x<=205 and y>=95 and y<=205)or (x>=295 and x<=705 and y>=595 and y<=705)):
