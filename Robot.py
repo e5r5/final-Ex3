@@ -78,7 +78,7 @@ class Robot:
 
         self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=1,fill='red')  # create a robot in the new x,y
 
-        control_battary()
+        self.control_battary()
 
     def control_battery(self):
         if (self.IsWhite and self.battery < 100):
