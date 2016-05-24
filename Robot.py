@@ -22,7 +22,11 @@ class Robot:
         self.history_path = []
         self.env = []
         self.canvas=canvas
-        canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='green')
+        if(isTree==true):
+          canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='green')
+        else:
+             canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=1,fill='red')
+        
 
         if ((x >= 330 and x <= 600 and y >= 330 and y <= 500)):
             self.IsWhite = False
