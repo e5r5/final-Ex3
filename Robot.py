@@ -30,7 +30,7 @@ class Robot:
         else:
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='red')
              canvas.create_text(x, y, text=id)
-        
+
 
         if ((x >= 330 and x <= 600 and y >= 330 and y <= 500)):
             self.IsWhite = False
@@ -38,8 +38,10 @@ class Robot:
             self.IsWhite = True
 
     def isOKtoMOVE(self,tempX, tempY):
+        if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
+            return False
 
-        if ((tempX > 1000 or tempX < 0) and (tempY > 700 or tempY < 0)):  # if its not in the limit of the canvas
+        if (tempY > 750 or tempY < 0):
             return False
         elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
                                 tempX >= 295 and tempX <= 705 and tempY >= 595 and tempY <= 705)):  # if its in a black area
