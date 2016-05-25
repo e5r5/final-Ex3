@@ -103,8 +103,11 @@ def RandomArr(arr):
 def Get_Oklidi_Dist(x1,y1,x2,y2):
     return math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
-def TreeToGuess_RealDist(xTree,yTree,Xguess,Yguess): #must to be O(1)! return dist!
-    return 555;
+def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
+    dis=Tree.disForTree[Yguess+1][Xguess+1]
+    r=random.uniform(0.8, 1.2)
+    return dis*r
+
 
 #impot: robot, Epsilon stopped the simulation, RMS Epsilon, a few pixels to move each step
 # void function that upDate the guess X Y and at the end make the robot to Tree!
@@ -139,7 +142,7 @@ def RMS(xtemp,ytemp):
     for r in robots:
         if(r.isTree):
             geassToTree =Get_Oklidi_Dist(r.tempY,r.tempY,xtemp,ytemp)
-            realDist = TreeToGuess_RealDist(r.tempX,r.tempY,xtemp,ytemp)
+            realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
             newDist= (geassToTree - realDist) * (geassToTree - realDist)
             sum = sum + newDist
     av = sum/nemberOfTree
