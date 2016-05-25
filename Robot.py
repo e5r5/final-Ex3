@@ -11,6 +11,7 @@ class Robot:
     IsWhite = None
     tempX=0
     tempY=0
+    disForTree= None
     canvas = None
     robot=[]
     def __init__(self, id, x, y,canvas,isTree,robots):
@@ -27,6 +28,7 @@ class Robot:
         if(isTree):
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
+             selt.disForTree=DifForTree(x,y)
         else:
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='red')
              canvas.create_text(x, y, text=id)
@@ -36,6 +38,53 @@ class Robot:
             self.IsWhite = False
         else:
             self.IsWhite = True
+      
+    #the function built for tree robot matrix for distance to another robots       
+    def DifForTree(self,x,y):
+        x,y=x+1,y+1
+        w, h =1000, 750
+        matrix = [[-1 for i in range(w + 2)] for j in range(h + 2)]
+        #built matrix when "-5": the limit
+        for i in range(0, w + 2, 1):
+            matrix[0][i] = -5
+            matrix[h + 1][i] = -5
+        for i in range(0, h + 2, 1):
+            matrix[i][0] = -5
+            matrix[i][w + 1] = -5
+        matrix[x][y]=0
+        arr=[x,y]
+        start=0
+        end=1
+        #calculation the distance
+        while(start<end):
+            x=arr[start]
+            y=arr[start+1]
+            start=start+2
+            if(matrix[x+1][y]==-1):
+                matrix[x+1][y]=matrix[x][y]+1
+                arr.append(x+1)
+                arr.append(y)
+                end=end+2
+            if (matrix[x- 1][y] == -1):
+                matrix[x - 1][y] = matrix[x][y] + 1
+                arr.append(x - 1)
+                arr.append(y)
+                end = end + 2
+            if (matrix[x][y+1] == -1):
+                matrix[x][y+1] = matrix[x][y] + 1
+                arr.append(x)
+                arr.append(y + 1)
+                end = end + 2
+            if (matrix[x][y - 1] == -1):
+                matrix[x][y - 1] = matrix[x][y] + 1
+                arr.append(x)
+                arr.append(y - 1)
+                end = end + 2
+
+        return matrix
+        
+     
+    
 
     def isOKtoMOVE(self,tempX, tempY):
         if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
