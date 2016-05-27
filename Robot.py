@@ -40,7 +40,8 @@ class Robot:
         
         #built for tree matrix for distance to another robots          
         if(isTree):
-            x1, y1 = x + 1, y + 1
+            x1=(int)x+1
+            y1=(int)y+1
             w, h = 1000,750
             # built the matrix with limit
             self.disForTree= [[-1 for i in range(w + 2)] for j in range(h + 2)]
