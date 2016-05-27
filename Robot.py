@@ -47,7 +47,6 @@ class Robot:
             self.disForTree= [[-1 for i in range(w + 2)] for j in range(h + 2)]
             for j in range(0, w + 2, 1):
                 for i in range(0, h + 2, 1):
-                    print self.id
                     self.disForTree[0][j] = -5
                     self.disForTree[h + 1][j] = -5
                     self.disForTree[i][0] = -5
@@ -61,7 +60,7 @@ class Robot:
             end = 1
             # calculation the distance
             while (start < end):
-                print 'a'
+
                 x1 = arr[start]
                 y1 = arr[start + 1]
                 start = start + 2
