@@ -37,16 +37,17 @@ class Robot:
             self.IsWhite = False
         else:
             self.IsWhite = True
-        
-        #built for tree matrix for distance to another robots          
+
+        #built for tree matrix for distance to another robots
         if(isTree):
             x1= int(x) +1
             y1= int(y) +1
-            w, h = 1000,750
+            w, h = 750,1000
             # built the matrix with limit
             self.disForTree= [[-1 for i in range(w + 2)] for j in range(h + 2)]
             for j in range(0, w + 2, 1):
                 for i in range(0, h + 2, 1):
+                    print self.id
                     self.disForTree[0][j] = -5
                     self.disForTree[h + 1][j] = -5
                     self.disForTree[i][0] = -5
@@ -60,6 +61,7 @@ class Robot:
             end = 1
             # calculation the distance
             while (start < end):
+                print 'a'
                 x1 = arr[start]
                 y1 = arr[start + 1]
                 start = start + 2
@@ -84,9 +86,9 @@ class Robot:
                     arr.append(y1 - 1)
                     end = end + 2
 
-      
-  
-    
+
+
+
     def isOKtoMOVE(self,tempX, tempY):
         if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
             return False
@@ -152,5 +154,4 @@ class Robot:
             file.write(s+'\n')
     def addPath(self,s):
         self.history_path[self.history_path.size]=s
-
 
