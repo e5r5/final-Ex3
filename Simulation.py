@@ -101,7 +101,7 @@ def RandomArr(arr):
 
 #return the oklidi dist from to point
 def Get_Oklidi_Dist(x1,y1,x2,y2):
-    return math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
+    return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
 def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
     dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
@@ -117,18 +117,18 @@ def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
     #while we dont close to epsilon
     while(RMS(Tempx,Tempy)>epsilonRMS):
         TempRms=RMS(Tempx,Tempy)
-        if(TempRms>RMS(Tempx,Tempy+Onestep) and Robot.isOKtoMOVE(Tempx,Tempy)):# move up
+        if(TempRms>RMS(Tempx,Tempy+Onestep) and Robot.isOKtoMOVE(Tempx,Tempy,robots)):# move up
             Tempy= Tempy + Onestep
-        elif(TempRms>RMS(Tempx,Tempy-Onestep)and Robot.isOKtoMOVE(Tempx,Tempy)):#move Down
+        elif(TempRms>RMS(Tempx,Tempy-Onestep)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):#move Down
             Tempy = Tempy - Onestep
-        elif(TempRms>RMS(Tempx+Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy)):   #move R
+        elif(TempRms>RMS(Tempx+Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):   #move R
             Tempx = Tempx + Onestep
-        elif(TempRms>RMS(Tempx-Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy)):#movw L
+        elif(TempRms>RMS(Tempx-Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):#movw L
             Tempx = Tempx - Onestep
         else:#all is not ok! go with anathr step
             Onestep = Onestep*2
     #if is colse enough updata robot = make tree and tempX tempY
-    if(((math.fabs(Tempx-robots[robot.id].tempX)<=epsilon_Stop_Simlashian) and (math.fabs(Tempy-robots[robot.id].tempY)<=epsilon_Stop_Simlashian))):
+    if(((fabs(Tempx-robots[robot.id].tempX)<=epsilon_Stop_Simlashian) and (fabs(Tempy-robots[robot.id].tempY)<=epsilon_Stop_Simlashian))):
         robot.isTree=True
         robot.tempY=Tempy
         robot.tempX=Tempx
@@ -146,7 +146,7 @@ def RMS(xtemp,ytemp):
             newDist= (geassToTree - realDist) * (geassToTree - realDist)
             sum = sum + newDist
     av = sum/nemberOfTree
-    return math.sqrt(av)
+    return sqrt(av)
 
 def OutFromGray():  #get out from the gray area
     for i in robots:
