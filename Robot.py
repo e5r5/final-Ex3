@@ -13,7 +13,7 @@ class Robot:
     tempY=0
     disForTree= None
     canvas = None
-    robot=[]
+    robots=[]
     def __init__(self, id, x, y,canvas,isTree,robots):
         start_time = time.time()
         self.id = id
@@ -88,19 +88,19 @@ class Robot:
 
 
 
-    def isOKtoMOVE(self,tempX, tempY):
-        if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
+def isOKtoMOVE(tempX, tempY,robots):
+    if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
             return False
 
-        if (tempY > 750 or tempY < 0):
+    if (tempY > 750 or tempY < 0):
             return False
-        elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
+    elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
                                 tempX >= 295 and tempX <= 705 and tempY >= 595 and tempY <= 705)):  # if its in a black area
-            return False
-        for i in self.robots:
-            if (i.x-5<tempX and i.x+5>tempX and i.y-5<tempY and i.y+5>tempY):
-                return False
-        else:
+     return False
+    for i in robots:
+         if (i.x-5<tempX and i.x+5>tempX and i.y-5<tempY and i.y+5>tempY):
+              return False
+    else:
             return True
 
     def control_battery(self):
@@ -109,7 +109,7 @@ class Robot:
         elif ((not self.IsWhite) and self.battery > 0):
             self.battery = self.battery - 1
 
-    def MoveRobot(self):
+       def MoveRobot(self):
         if (self.isTree):
             self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='green')
             self.canvas.create_text(self.x, self.y, text=self.id)
@@ -137,7 +137,7 @@ class Robot:
                 tempY = self.y - 10
                 tempX = self.x
 
-            if (self.isOKtoMOVE(tempX,tempY)==True):  # if the point is in good area- break while
+            if (isOKtoMOVE(tempX,tempY,self.robots)==True):  # if the point is in good area- break while
                 self.x = tempX
                 self.y = tempY
                 break
@@ -146,6 +146,8 @@ class Robot:
         self.canvas.create_text(self.x,self.y,text=self.id)
 
         self.control_battery
+
+
 
 
     def WriteMSGtoFile(s):
