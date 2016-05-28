@@ -20,8 +20,11 @@ canvas = Canvas(width=1000, height=750, bg='white')
 ##one run on robots, if step() work like 20,000 time= we finsh the Simulation
 def step():
     for i in robots:
-        print 'hi'
+        close_to_the_real_dist(robots[55],50,50,5)
+        print "real dist : x: ",robots[55].x,"  y:" ,robots[55].y
+        print "temp x", robots[55].tempX,"y: ",robots[55].tempY
         i.MoveRobot()
+
 
 button1 = Button(Frame, text = "Quit", command = canvas.quit)
 button2 = Button(Frame, text = "step 1 time", command = step)
