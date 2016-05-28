@@ -2,7 +2,20 @@ from Tkinter import *
 import random
 import time
 from math import *
+def isOKtoMOVE(tempX, tempY,robots):
+    if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
+            return False
 
+    if (tempY > 750 or tempY < 0):
+            return False
+    elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
+                                tempX >= 295 and tempX <= 705 and tempY >= 595 and tempY <= 705)):  # if its in a black area
+            return False
+    for i in robots:
+         if (i.x-5<tempX and i.x+5>tempX and i.y-5<tempY and i.y+5>tempY):
+            return False
+    else:
+            return True
 class Robot:
     x = 0
     y = 0
@@ -88,20 +101,7 @@ class Robot:
 
 
 
-def isOKtoMOVE(tempX, tempY,robots):
-    if (tempX > 1000 or tempX < 0):  # if its not in the limit of the canvas
-            return False
 
-    if (tempY > 750 or tempY < 0):
-            return False
-    elif ((tempX >= 95 and tempX <= 205 and tempY >= 95 and tempY <= 205) or (
-                                tempX >= 295 and tempX <= 705 and tempY >= 595 and tempY <= 705)):  # if its in a black area
-     return False
-    for i in robots:
-         if (i.x-5<tempX and i.x+5>tempX and i.y-5<tempY and i.y+5>tempY):
-              return False
-    else:
-            return True
 
     def control_battery(self):
         if (self.IsWhite and self.battery < 100):
@@ -109,7 +109,7 @@ def isOKtoMOVE(tempX, tempY,robots):
         elif ((not self.IsWhite) and self.battery > 0):
             self.battery = self.battery - 1
 
-       def MoveRobot(self):
+    def MoveRobot(self):
         if (self.isTree):
             self.canvas.create_oval(self.x - 5, self.y - 5, self.x + 5, self.y + 5, width=0, fill='green')
             self.canvas.create_text(self.x, self.y, text=self.id)
@@ -137,7 +137,7 @@ def isOKtoMOVE(tempX, tempY,robots):
                 tempY = self.y - 10
                 tempX = self.x
 
-            if (isOKtoMOVE(tempX,tempY,self.robots)==True):  # if the point is in good area- break while
+            if (isOKtoMOVE(tempX,tempY,self.robots)):  # if the point is in good area- break while
                 self.x = tempX
                 self.y = tempY
                 break
@@ -155,4 +155,3 @@ def isOKtoMOVE(tempX, tempY,robots):
             file.write(s+'\n')
     def addPath(self,s):
         self.history_path[self.history_path.size]=s
-
