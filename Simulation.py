@@ -20,7 +20,7 @@ canvas = Canvas(width=1000, height=750, bg='white')
 ##one run on robots, if step() work like 20,000 time= we finsh the Simulation
 def step():
     for i in robots:
-       # print 'hi'
+        print 'hi'
         i.MoveRobot()
 
 button1 = Button(Frame, text = "Quit", command = canvas.quit)
@@ -104,7 +104,7 @@ def Get_Oklidi_Dist(x1,y1,x2,y2):
     return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
 def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
-    dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
+    dis=Tree.disForTree[int(Xguess)+1][int(Yguess)+1]
     r=random.uniform(0.8, 1.2)
     return dis*r
 
@@ -155,6 +155,9 @@ def OutFromGray():  #get out from the gray area
             i.y=i.y-20 #go up
             canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
             canvas.create_text(i.x,i.y,text=i.id)
+
+
+print robots.pop(0).disForTree[0][0]
 
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
