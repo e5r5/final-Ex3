@@ -22,8 +22,8 @@ class Robot:
     id = 0
     battery = 70
     IsWhite = None
-    tempX=0
-    tempY=0
+    tempX=555
+    tempY=555
     disForTree= None
     canvas = None
     robots=[]
