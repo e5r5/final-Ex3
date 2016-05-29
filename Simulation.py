@@ -107,7 +107,7 @@ def Get_Oklidi_Dist(x1,y1,x2,y2):
     return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
 def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
-    dis=Tree.disForTree[int(Xguess)+1][int(Yguess)+1]
+    dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
     r=random.uniform(0.8, 1.2)
     return dis*r
 
