@@ -107,6 +107,7 @@ def Get_Oklidi_Dist(x1,y1,x2,y2):
     return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
 def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
+
     dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
     r=random.uniform(0.8, 1.2)
     return dis*r
@@ -117,6 +118,7 @@ def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
 def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
     Tempx=robot.tempX
     Tempy=robot.tempY
+
     #while we dont close to epsilon
     while(RMS(Tempx,Tempy)>epsilonRMS):
         TempRms=RMS(Tempx,Tempy)
@@ -132,9 +134,11 @@ def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
             Onestep = Onestep*2
     #if is colse enough updata robot = make tree and tempX tempY
     if(((fabs(Tempx-robots[robot.id].tempX)<=epsilon_Stop_Simlashian) and (fabs(Tempy-robots[robot.id].tempY)<=epsilon_Stop_Simlashian))):
-        robot.isTree=True
-        robot.tempY=Tempy
-        robot.tempX=Tempx
+        i= (int)(robot.id)
+        robots.insert(i,Robot.Robot(robot.id, robot.x, robot.y,canvas,True,robots))
+        robots[i].tempY=Tempy
+        robots[i].tempX=Tempx
+        robots.remove(robot)
     else:
         print "Error in function (close_to_the_real_dist) ,the main function, need to fix!   "
 
@@ -144,6 +148,7 @@ def RMS(xtemp,ytemp):
     nemberOfTree = 15
     for r in robots:
         if(r.isTree):
+            print r.id
             geassToTree =Get_Oklidi_Dist(r.tempY,r.tempY,xtemp,ytemp)
             realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
             newDist= (geassToTree - realDist) * (geassToTree - realDist)
@@ -159,8 +164,6 @@ def OutFromGray():  #get out from the gray area
             canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
             canvas.create_text(i.x,i.y,text=i.id)
 
-
-print robots.pop(0).disForTree[0][0]
 
 canvas.bind('<Button-1>',  onMiddleClick)
 canvas.pack(expand=YES, fill=BOTH)
