@@ -19,16 +19,40 @@ canvas = Canvas(width=1000, height=750, bg='white')
 
 ##one run on robots, if step() work like 20,000 time= we finsh the Simulation
 def step():
-   # for i in robots:
-        close_to_the_real_dist(robots[55],50,50,5)
-        print "real dist : x: ",robots[55].x,"  y:" ,robots[55].y
-        print "temp x", robots[55].tempX,"y: ",robots[55].tempY
-        #i.MoveRobot()
+   epsilon_stop_simulation = 10
+   epsilonRMS = 10
+   for r in robots:
+        r.MoveRobot()
+        OutFromGray()
+        close_to_the_real_dist(r,epsilon_stop_simulation,epsilonRMS,r.oneStepRobot)
+
+
+
+
+def step_until_end():
+    ans=0
+    while(True):
+        step()
+        print ans
+        ans=ans+1
+        if(IsSimulationFinish(robots,10)):
+            break
+    print "is Done in ",ans," steps !!"
+    canvasEnd = Canvas(width=1000, height=750, bg='blue')
+    canvasEnd.create_rectangle(100, 100, 200, 200, width=1, fill='black')
+    canvasEnd.create_rectangle(300, 600,700 , 700, width=3, fill='black')
+    canvasEnd.create_rectangle(330, 330,600 , 500, width=2, fill='gray')
+    canvasEnd.pack(expand=YES, fill=BOTH)
+    for j in robots:
+        canvasEnd.create_oval(j.tempX - 5, j.tempY - 5, j.tempX + 5, j.tempY + 5, width=0, fill='green')
+        canvasEnd.create_text(j.tempX, j.tempY, text=j.id)
+    canvasEnd.pack(expand=YES, fill=BOTH, side=RIGHT)
+    canvasEnd.mainloop()
 
 
 button1 = Button(Frame, text = "Quit", command = canvas.quit)
 button2 = Button(Frame, text = "step 1 time", command = step)
-button3 = Button(Frame, text = "step 5000 times")
+button3 = Button(Frame, text = "until Simulation Finish",command=step_until_end)
 button1.pack(side=TOP)
 button2.pack(side=TOP)
 button3.pack(side=TOP)
@@ -61,7 +85,7 @@ canvas.pack(expand=YES, fill=BOTH)#Show canvas
 ###if Simulation Finish return true else return false
 def IsSimulationFinish(robots,epsilon):
     for r in robots:
-        if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon))):
+        if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) and not r.isTree)):
             return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
     return True
 
@@ -109,10 +133,9 @@ def Get_Oklidi_Dist(x1,y1,x2,y2):
     return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
 
 def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
-
-    dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
+    #dis=Tree.disForTree[int(Yguess)+1][int(Xguess)+1]
     r=random.uniform(0.8, 1.2)
-    return dis*r
+    return (Get_Oklidi_Dist(Tree.tempX,Tree.tempY,Xguess,Yguess)*r)
 
 
 #impot: robot, Epsilon stopped the simulation, RMS Epsilon, a few pixels to move each step
@@ -120,50 +143,51 @@ def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
 def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
     Tempx=robot.tempX
     Tempy=robot.tempY
-
     #while we dont close to epsilon
-    while(RMS(Tempx,Tempy)>epsilonRMS):
+    TempRms=RMS(Tempx,Tempy,robot.id)
+    startRms=TempRms
+    if(TempRms>RMS(Tempx,Tempy+Onestep,robot.id)and Robot.isOKtoMOVE(Tempx,Tempy+Onestep,robots)):# move up
+       Tempy= Tempy + Onestep
+       TempRms=RMS(Tempx,Tempy+Onestep,robot.id)
+    elif (TempRms > RMS(Tempx, Tempy - Onestep,robot.id) and Robot.isOKtoMOVE(Tempx, Tempy- Onestep, robots)):  # move Down
+       Tempy = Tempy - Onestep
+       TempRms = RMS(Tempx, Tempy - Onestep,robot.id)
+    elif (TempRms > RMS(Tempx + Onestep, Tempy,robot.id)and Robot.isOKtoMOVE(Tempx + Onestep,Tempy,robots)):  # move R
+       Tempx = Tempx + Onestep
+       TempRms = RMS(Tempx + Onestep, Tempy,robot.id)
+    elif(TempRms>RMS(Tempx-Onestep,Tempy,robot.id)and Robot.isOKtoMOVE(Tempx - Onestep,Tempy,robots)):#movw L
+       Tempx = Tempx - Onestep
+       TempRms =RMS(Tempx - Onestep, Tempy,robot.id)
+    else:#all is not ok! go with anathr step
+       robots[robot.id].oneStepRobot=robots[robot.id].oneStepRobot+5
+    robots[robot.id].tempY = Tempy
+    robots[robot.id].tempX = Tempx
 
-        TempRms=RMS(Tempx,Tempy)
-        print "RMS(Tempx,Tempy):",TempRms
-        if(TempRms>RMS(Tempx,Tempy+Onestep) and Robot.isOKtoMOVE(Tempx,Tempy,robots)):# move up
-            Tempy= Tempy + Onestep
-        elif(TempRms>RMS(Tempx,Tempy-Onestep)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):#move Down
-            Tempy = Tempy - Onestep
-        elif(TempRms>RMS(Tempx+Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):   #move R
-            Tempx = Tempx + Onestep
-        elif(TempRms>RMS(Tempx-Onestep,Tempy)and Robot.isOKtoMOVE(Tempx,Tempy,robots)):#movw L
-            Tempx = Tempx - Onestep
-        else:#all is not ok! go with anathr step
-            Onestep = Onestep*2
     #if is colse enough updata robot = make tree and tempX tempY
-    if(((fabs(Tempx-robots[robot.id].tempX)<=epsilon_Stop_Simlashian) and (fabs(Tempy-robots[robot.id].tempY)<=epsilon_Stop_Simlashian))):
+    if((fabs(Tempx-robots[robot.id].x)<=epsilon_Stop_Simlashian) and (fabs(Tempy-robots[robot.id].y)<=epsilon_Stop_Simlashian)and epsilonRMS>TempRms and not robot.isTree):
         i= (int)(robot.id)
-        robots.insert(i,Robot.Robot(robot.id, robot.x, robot.y,canvas,True,robots))
-        robots[i].tempY=Tempy
-        robots[i].tempX=Tempx
-        print "ok is a tree now : Tempx",Tempx,"Tempy",Tempy
+        robots[i].tempY = Tempy
+        robots[i].tempX = Tempx
+        robots.insert(i,Robot.Robot(robot.id, robot.tempX, robot.tempY,canvas,True,robots))
+        #print "ok is a tree now : Tempx",Tempx,"Tempy",Tempy
         robots.remove(robot)
-    else:
-        print "Error in function (close_to_the_real_dist) ,the main function, need to fix!   "
+       # print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",robot.id
+        return
+
 
 # the STIA = if is close to zero, the geass close to the real dist
-def RMS(xtemp,ytemp):
+def RMS(xtemp,ytemp,idR):
     sum=0
-    nemberOfTree = 15
+    nemberOfTree = 0
     for r in robots:
         if(r.isTree):
-            print "robot id", r.id, "tree x Robot", r.tempX, "tree y Robot", r.tempY
-            print "x gess:", xtemp, "y gess ", ytemp
-            geassToTree =Get_Oklidi_Dist(r.x,r.x,xtemp,ytemp)
-
-            realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
-
-            print "realDist ",realDist
-            newDist= (geassToTree - realDist) * (geassToTree - realDist)
+            nemberOfTree=nemberOfTree+1
+            geassToTree =Get_Oklidi_Dist(r.x,r.y,xtemp,ytemp)
+            #realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
+            realDist = Get_Oklidi_Dist(r.x,r.y,robots[idR].x,robots[idR].y)
+            newDist= (realDist-geassToTree  ) * (realDist-geassToTree)
             sum = sum + newDist
     av = sum/nemberOfTree
-    print "av: ",sqrt(av)
     return sqrt(av)
 
 def OutFromGray():  #get out from the gray area
