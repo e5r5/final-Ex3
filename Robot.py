@@ -27,6 +27,7 @@ class Robot:
     disForTree= None
     canvas = None
     robots=[]
+    oneStepRobot=5
     def __init__(self, id, x, y,canvas,isTree,robots):
         start_time = time.time()
         self.id = id
@@ -38,6 +39,7 @@ class Robot:
         self.env = []
         self.canvas=canvas
         self.robots=robots
+        self.oneStepRobot=5
         if(isTree):
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
@@ -53,54 +55,51 @@ class Robot:
 
 
         #built for tree matrix for distance to another robots
-        if(isTree):
-            x1= int(x) +1
-            y1= int(y) +1
-            w, h = 1000,750
-            # built the matrix with limit
-            self.disForTree= [[-1 for i in range(w + 2)] for j in range(h + 2)]
-            for j in range(0, w + 2, 1):
-                for i in range(0, h + 2, 1):
-                    self.disForTree[0][j] = -5
-                    self.disForTree[h + 1][j] = -5
-                    self.disForTree[i][0] = -5
-                    self.disForTree[i][w + 1] = -5
-                    if ((j >= 100 + 1 and j <= 200 + 1 and i >= 100 + 1 and i <= 200 + 1) or (
-                                            j >= 300 + 1 and j <= 700 + 1 and i >= 600 + 1 and i <= 700 + 1)):
-                        self.disForTree[i][j] = -5
-            self.disForTree[y1][x1] = 0
-            arr = [y1, x1]
-            start = 0
-            end = 1
-            # calculation the distance
-            while (start < end):
-
-                y1 = arr[start]
-                x1 = arr[start + 1]
-                start = start + 2
-                if (self.disForTree[y1 + 1][x1] == -1):
-                    self.disForTree[y1 + 1][x1] = self.disForTree[y1][x1] + 1
-                    arr.append(y1 + 1)
-                    arr.append(x1)
-                    end = end + 2
-                if (self.disForTree[y1 - 1][x1] == -1):
-                    self.disForTree[y1 - 1][x1] = self.disForTree[y1][x1] + 1
-                    arr.append(y1 - 1)
-                    arr.append(x1)
-                    end = end + 2
-                if (self.disForTree[y1][x1 + 1] == -1):
-                    self.disForTree[y1][x1 + 1] = self.disForTree[y1][x1] + 1
-                    arr.append(y1)
-                    arr.append(x1 + 1)
-                    end = end + 2
-                if (self.disForTree[y1][x1 - 1] == -1):
-                    self.disForTree[y1][x1 - 1] = self.disForTree[y1][x1] + 1
-                    arr.append(y1)
-                    arr.append(x1 - 1)
-                    end = end + 2
-
-
-
+        # if(isTree):
+        #     x1= int(x) +1
+        #     y1= int(y) +1
+        #     w, h = 1000,750
+        #     # built the matrix with limit
+        #     self.disForTree= [[-1 for i in range(w + 2)] for j in range(h + 2)]
+        #     for j in range(0, w + 2, 1):
+        #         for i in range(0, h + 2, 1):
+        #             self.disForTree[0][j] = -5
+        #             self.disForTree[h + 1][j] = -5
+        #             self.disForTree[i][0] = -5
+        #             self.disForTree[i][w + 1] = -5
+        #             if ((j >= 100 + 1 and j <= 200 + 1 and i >= 100 + 1 and i <= 200 + 1) or (
+        #                                     j >= 300 + 1 and j <= 700 + 1 and i >= 600 + 1 and i <= 700 + 1)):
+        #                 self.disForTree[i][j] = -5
+        #     self.disForTree[y1][x1] = 0
+        #     arr = [y1, x1]
+        #     start = 0
+        #     end = 1
+        #     # calculation the distance
+        #     while (start < end):
+        #
+        #         y1 = arr[start]
+        #         x1 = arr[start + 1]
+        #         start = start + 2
+        #         if (self.disForTree[y1 + 1][x1] == -1):
+        #             self.disForTree[y1 + 1][x1] = self.disForTree[y1][x1] + 1
+        #             arr.append(y1 + 1)
+        #             arr.append(x1)
+        #             end = end + 2
+        #         if (self.disForTree[y1 - 1][x1] == -1):
+        #             self.disForTree[y1 - 1][x1] = self.disForTree[y1][x1] + 1
+        #             arr.append(y1 - 1)
+        #             arr.append(x1)
+        #             end = end + 2
+        #         if (self.disForTree[y1][x1 + 1] == -1):
+        #             self.disForTree[y1][x1 + 1] = self.disForTree[y1][x1] + 1
+        #             arr.append(y1)
+        #             arr.append(x1 + 1)
+        #             end = end + 2
+        #         if (self.disForTree[y1][x1 - 1] == -1):
+        #             self.disForTree[y1][x1 - 1] = self.disForTree[y1][x1] + 1
+        #             arr.append(y1)
+        #             arr.append(x1 - 1)
+        #             end = end + 2
 
 
     def control_battery(self):
