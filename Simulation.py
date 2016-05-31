@@ -31,23 +31,14 @@ def step():
 
 def step_until_end():
     ans=0
-    while(True):
+    Done = False
+    while(not Done):
         step()
-        print ans
         ans=ans+1
         if(IsSimulationFinish(robots,10)):
-            break
+            Done=True
     print "is Done in ",ans," steps !!"
-    canvasEnd = Canvas(width=1000, height=750, bg='blue')
-    canvasEnd.create_rectangle(100, 100, 200, 200, width=1, fill='black')
-    canvasEnd.create_rectangle(300, 600,700 , 700, width=3, fill='black')
-    canvasEnd.create_rectangle(330, 330,600 , 500, width=2, fill='gray')
-    canvasEnd.pack(expand=YES, fill=BOTH)
-    for j in robots:
-        canvasEnd.create_oval(j.tempX - 5, j.tempY - 5, j.tempX + 5, j.tempY + 5, width=0, fill='green')
-        canvasEnd.create_text(j.tempX, j.tempY, text=j.id)
-    canvasEnd.pack(expand=YES, fill=BOTH, side=RIGHT)
-    canvasEnd.mainloop()
+
 
 
 button1 = Button(Frame, text = "Quit", command = canvas.quit)
@@ -85,7 +76,7 @@ canvas.pack(expand=YES, fill=BOTH)#Show canvas
 ###if Simulation Finish return true else return false
 def IsSimulationFinish(robots,epsilon):
     for r in robots:
-        if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) and not r.isTree)):
+        if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) )):
             return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
     return True
 
