@@ -32,6 +32,7 @@ def step():
 def step_until_end():
     ans=0
     Done = False
+    print "time a few min!!"
     while(not Done):
         step()
         ans=ans+1
@@ -39,13 +40,19 @@ def step_until_end():
             Done=True
     print "is Done in ",ans," steps !!"
 
+def run100():
+    for i in range(1,100):
+        step()
 
 
 button1 = Button(Frame, text = "Quit", command = canvas.quit)
 button2 = Button(Frame, text = "step 1 time", command = step)
 button3 = Button(Frame, text = "until Simulation Finish",command=step_until_end)
+button4 = Button(Frame, text = "run 100 times",command=run100)
+
 button1.pack(side=TOP)
 button2.pack(side=TOP)
+button4.pack(side=TOP)
 button3.pack(side=TOP)
 
 
@@ -76,6 +83,8 @@ canvas.pack(expand=YES, fill=BOTH)#Show canvas
 ###if Simulation Finish return true else return false
 def IsSimulationFinish(robots,epsilon):
     for r in robots:
+        if(r.id==64):
+            continue
         if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) )):
             return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
     return True
