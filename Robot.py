@@ -24,6 +24,7 @@ class Robot:
     IsWhite = None
     tempX=555
     tempY=555
+    counterMSG=0
     disForTree= None
     canvas = None
     robots=[]
