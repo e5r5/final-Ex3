@@ -100,22 +100,19 @@ def onMiddleClick(event):
 
 ############################################################################################
 class MSG:
-    def __init__(self, IDmsg, timeMsg, senderID, dataMSG, power, sourceMsg):
-        start_time=time.time()
+    def __init__(self, IDmsg, sourceMsg,  Xsender,Ysender, power ):
+        self.timeMSG=time.time()
         self.IDmsg=IDmsg
-        self.timeMSG=timeMsg
-        self.senderID=senderID
-        self.dataMSG=dataMSG
+        self.sourceMSG = sourceMsg
+        self.Xsender=Xsender
+        self.Ysender = Ysender
         self.power=power
-        self.sourceMSG=sourceMsg
-        self.counterMSG=1
 
-    def updateMSG(self, timeMSG1, senderID1, dataMSG1, power1):
-        self.timeMSG=timeMSG1
-        self.senderID=senderID1
-        self.dataMSG=dataMSG1
+
+    def updateMSG(self, power1):
+        self.timeMSG=time.time()
         self.power=power1
-        self.counterMSG=self.counterMSG+1
+
 
 ############################## class Simulator:################################################
 
@@ -197,6 +194,17 @@ def OutFromGray():  #get out from the gray area
             i.y=i.y-20 #go up
             canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
             canvas.create_text(i.x,i.y,text=i.id)
+
+def send_msg():
+    a=random.randint(0, 100)
+    while(robots[a].isTrre==False):
+        a = random.randint(0, 100)
+    r= robots[a]
+
+    msg= MSG( (r.id*1000)+r.counterMSG, r.id, r.x, r.y, 0)
+    r.counterMSG=r.counterMSG+1
+    return msg
+
 
 
 canvas.bind('<Button-1>',  onMiddleClick)
