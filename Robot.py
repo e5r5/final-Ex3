@@ -28,6 +28,7 @@ class Robot:
     disForTree= None
     canvas = None
     robots=[]
+    Trees = [] # the tree that received MSG copy by pointer here!
     oneStepRobot=5
     def __init__(self, id, x, y,canvas,isTree,robots):
         start_time = time.time()
@@ -41,6 +42,7 @@ class Robot:
         self.canvas=canvas
         self.robots=robots
         self.oneStepRobot=5
+        self.Trees=[]
         if(isTree):
              canvas.create_oval(x - 5, y - 5, x + 5, y + 5, width=0,fill='green')
              canvas.create_text(x, y, text=id)
