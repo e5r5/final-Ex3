@@ -173,6 +173,18 @@ def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
        # print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",robot.id
         return
 
+def get_msg(m):
+    senderRobot=m.sourceMSG
+    i=robots[senderRobot-1]
+    x=m.Xsender
+    y=m.Ysender
+    for r in robots:
+        if (not r.isTree):
+            if (fabs(r.x-x)<=50 and fabs(r.y-y)<=50):
+                r.Trees.append(i)
+            elif (fabs(r.x-x)>50 and fabs(r.x-x)<=500 and fabs(r.y-y)>50 and fabs(r.y-y)<=500):
+                r.Trees.append(i)
+
 
 # the STIA = if is close to zero, the geass close to the real dist
 def RMS(xtemp,ytemp,idR):
