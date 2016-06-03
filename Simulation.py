@@ -142,6 +142,8 @@ def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
     Tempy=robot.tempY
     #while we dont close to epsilon
     TempRms=RMS(Tempx,Tempy,robot.id)
+    if(TempRms==0):
+        return
     startRms=TempRms
     if(TempRms>RMS(Tempx,Tempy+Onestep,robot.id)and Robot.isOKtoMOVE(Tempx,Tempy+Onestep,robots)):# move up
        Tempy= Tempy + Onestep
@@ -176,8 +178,10 @@ def close_to_the_real_dist(robot,epsilon_Stop_Simlashian,epsilonRMS,Onestep):
 def RMS(xtemp,ytemp,idR):
     sum=0
     nemberOfTree = 0
-    for r in robots:
-        if(r.isTree):
+    if (len(robots[idR].Trees)<=2):
+        return 0
+    for r in robots[idR].Trees:
+        #if(r.isTree):
             nemberOfTree=nemberOfTree+1
             geassToTree =Get_Oklidi_Dist(r.x,r.y,xtemp,ytemp)
             #realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
