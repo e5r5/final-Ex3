@@ -181,25 +181,26 @@ def get_msg(m):
     for r in robots:
         if (not r.isTree):  #if tree- we dont insert to his array (Trese)
             dis= sqrt ((r.x-x)*(r.x-x) + (r.y-y)*(r.y-y))  #dis from the tree that send the massage
+            m.updateMSG(dis)
             if (dis<=50):   #if dis less then 50- this tree get the massage
-                r.Trees.append(i)
+                r.Trees.append(m)
             elif (dis>50 and dis<=500):  #if dis between 50 to 500 we do a probability (histabrot)
                 rand = random.random
                 if (dis<=140):
                     if (rand<=1):
-                        r.Trees.append(i)
+                        r.Trees.append(m)
                 elif (dis<=230):
                     if (rand<=0.8):
-                        r.Trees.append(i)
+                        r.Trees.append(m)
                 elif (dis <= 320):
                     if (rand <= 0.6):
-                        r.Trees.append(i)
+                        r.Trees.append(m)
                 elif (dis <= 410):
                     if (rand <= 0.4):
-                        r.Trees.append(i)
+                        r.Trees.append(m)
                 elif (dis <= 500):
                     if (rand <= 0.2):
-                        r.Trees.append(i)
+                        r.Trees.append(m)
 
 
 # the STIA = if is close to zero, the geass close to the real dist
@@ -208,12 +209,12 @@ def RMS(xtemp,ytemp,idR):
     nemberOfTree = 0
     if (len(robots[idR].Trees)<=2):
         return 0
-    for r in robots[idR].Trees:
+    for m in robots[idR].Trees:
         #if(r.isTree):
             nemberOfTree=nemberOfTree+1
-            geassToTree =Get_Oklidi_Dist(r.x,r.y,xtemp,ytemp)
+            geassToTree =Get_Oklidi_Dist(m.Xsender,m.Ysender,xtemp,ytemp)
             #realDist = TreeToGuess_RealDist(r,xtemp,ytemp)
-            realDist = Get_Oklidi_Dist(r.x,r.y,robots[idR].x,robots[idR].y)
+            realDist = Get_Oklidi_Dist(m.Xsender,m.Ysender,robots[idR].x,robots[idR].y)
             newDist= (realDist-geassToTree  ) * (realDist-geassToTree)
             sum = sum + newDist
     av = sum/nemberOfTree
