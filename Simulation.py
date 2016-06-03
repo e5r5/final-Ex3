@@ -179,11 +179,27 @@ def get_msg(m):
     x=m.Xsender
     y=m.Ysender
     for r in robots:
-        if (not r.isTree):
-            if (fabs(r.x-x)<=50 and fabs(r.y-y)<=50):
+        if (not r.isTree):  #if tree- we dont insert to his array (Trese)
+            dis= sqrt ((r.x-x)*(r.x-x) + (r.y-y)*(r.y-y))  #dis from the tree that send the massage
+            if (dis<=50):   #if dis less then 50- this tree get the massage
                 r.Trees.append(i)
-            elif (fabs(r.x-x)>50 and fabs(r.x-x)<=500 and fabs(r.y-y)>50 and fabs(r.y-y)<=500):
-                r.Trees.append(i)
+            elif (dis>50 and dis<=500):  #if dis between 50 to 500 we do a probability (histabrot)
+                rand = random.random
+                if (dis<=140):
+                    if (rand<=1):
+                        r.Trees.append(i)
+                elif (dis<=230):
+                    if (rand<=0.8):
+                        r.Trees.append(i)
+                elif (dis <= 320):
+                    if (rand <= 0.6):
+                        r.Trees.append(i)
+                elif (dis <= 410):
+                    if (rand <= 0.4):
+                        r.Trees.append(i)
+                elif (dis <= 500):
+                    if (rand <= 0.2):
+                        r.Trees.append(i)
 
 
 # the STIA = if is close to zero, the geass close to the real dist
