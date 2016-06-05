@@ -21,10 +21,11 @@ canvas = Canvas(width=1000, height=750, bg='white')
 def step():
    epsilon_stop_simulation = 10
    epsilonRMS = 10
+   send_msg()
    for r in robots:
-        r.MoveRobot()
-        OutFromGray()
-        close_to_the_real_dist(r,epsilon_stop_simulation,epsilonRMS,r.oneStepRobot)
+            r.MoveRobot()
+            OutFromGray()
+            close_to_the_real_dist(r,epsilon_stop_simulation,epsilonRMS,r.oneStepRobot)
 
 
 
@@ -32,8 +33,8 @@ def step():
 def step_until_end():
     ans=0
     Done = False
-    print "time a few min!!"
-    while(not Done):
+    print "take a few min!!"
+    while(Done==False):
         step()
         ans=ans+1
         if(IsSimulationFinish(robots,10)):
@@ -82,11 +83,14 @@ canvas.pack(expand=YES, fill=BOTH)#Show canvas
 
 ###if Simulation Finish return true else return false
 def IsSimulationFinish(robots,epsilon):
+    print 'hi'
     for r in robots:
         if(r.id==64):
             continue
-        if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) )):
-            return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
+        #if(not((fabs(r.tempX-r.x)<=epsilon) and (fabs(r.tempY-r.y)<=epsilon) )):
+            #return False#for evrey robot in robots chek if Finish=only when evrey robot Finish
+        if (r.isTree==False):
+            return False
     return True
 
 
@@ -113,7 +117,6 @@ class MSG:
         self.timeMSG=time.time()
         self.power=power1
 
-
 ############################## class Simulator:################################################
 
 def swap(a, b, arr):
@@ -134,6 +137,20 @@ def TreeToGuess_RealDist(Tree,Xguess,Yguess): #must to be O(1)! return dist!
     r=random.uniform(0.8, 1.2)
     return (Get_Oklidi_Dist(Tree.tempX,Tree.tempY,Xguess,Yguess)*r)
 
+
+def WriteMSGtoFile(m):
+    file=open("MSG_history.txt", "a")
+    file.write((str)(m.IDmsg))
+    file.write('  ')
+    file.write((str)(m.sourceMSG))
+    file.write('  ')
+    file.write((str)(m.Xsender))
+    file.write('  ')
+    file.write((str)(m.Ysender))
+    file.write('  ')
+    file.write((str)(m.power))
+    file.write('\n')
+    file.close()
 
 #impot: robot, Epsilon stopped the simulation, RMS Epsilon, a few pixels to move each step
 # void function that upDate the guess X Y and at the end make the robot to Tree!
@@ -179,7 +196,7 @@ def get_msg(m):
     x=m.Xsender
     y=m.Ysender
     for r in robots:
-        if (not r.isTree):  #if tree- we dont insert to his array (Trese)
+        if (r.isTree== False):  #if tree- we dont insert to his array (Trese)
             dis= sqrt ((r.x-x)*(r.x-x) + (r.y-y)*(r.y-y))  #dis from the tree that send the massage
             m.updateMSG(dis)
             if (dis<=50):   #if dis less then 50- this tree get the massage
@@ -222,21 +239,25 @@ def RMS(xtemp,ytemp,idR):
 
 def OutFromGray():  #get out from the gray area
     for i in robots:
-        if ((i.x >= 330 and i.x <= 600 and i.y >= 330 and i.y <= 500) and i.isTree==False):
+        if ((i.x >= 330 and i.x <= 600 and i.y >= 330 and i.y <= 500) and  i.isTree==False):
             canvas.create_oval(i.x - 7, i.y - 7, i.x + 7, i.y + 7, width=0, fill='gray') #delete robot
             i.y=i.y-20 #go up
             canvas.create_oval(i.x - 5, i.y - 5, i.x + 5, i.y + 5, width=0, fill='red')
             canvas.create_text(i.x,i.y,text=i.id)
 
 def send_msg():
-    a=random.randint(0, 100)
-    while(robots[a].isTrre==False):
-        a = random.randint(0, 100)
-    r= robots[a]
+    m=0
+    while (m<100):
+        a=random.randint(0, 99)
+        while(robots[a].isTree==False):
+            a = random.randint(0, 99)
+        r= robots[a]
 
-    msg= MSG( (r.id*1000)+r.counterMSG, r.id, r.x, r.y, 0)
-    r.counterMSG=r.counterMSG+1
-    return msg
+        msg= MSG( (r.id*1000)+r.counterMSG, r.id, r.x, r.y, 0)
+        r.counterMSG=r.counterMSG+1
+        WriteMSGtoFile(msg)
+        get_msg(msg)
+        m=m+1
 
 
 
