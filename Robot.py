@@ -151,9 +151,5 @@ class Robot:
 
 
 
-
-    def WriteMSGtoFile(s):
-        with open('MSG_history'+id+'.txt','a') as file:
-            file.write(s+'\n')
     def addPath(self,s):
         self.history_path[self.history_path.size]=s
