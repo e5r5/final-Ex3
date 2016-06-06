@@ -6,6 +6,8 @@
 
 - The simulation ends as soon as the robot know what his starting position to an accuracy Epsilon
 - use: Root mean square algorithm ,Random Arrays algorithm and more
+##![Hello](http://s33.postimg.org/w8rcp3vyn/image.jpg)
+
 ##The initial state:
 ![Hello](http://s33.postimg.org/9lesab9f3/image.jpg)
 ##In the end:
